@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import DistributedDemo from "./DistributedDemo";
+import HeartRate from "./HeartRate";
 import loadData from "./loadData";
 import Spinner from 'react-spinkit';
 
@@ -35,7 +36,8 @@ export default class Home extends Component {
     return (
       <div>
           {!this.state.loading && this.renderLoading()}
-          {this.state.data && this.state.data && <DistributedDemo data={this.state.data}></DistributedDemo>}
+          {this.state.data && this.state.data && <HeartRate data={this.state.data}></HeartRate>}
+          {/* {this.state.data && this.state.data && <DistributedDemo data={this.state.data}></DistributedDemo>} */}
       </div>
     );
   }
