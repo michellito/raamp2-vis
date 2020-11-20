@@ -6,29 +6,13 @@ import {largestTriangleThreeBucket} from '@d3fc/d3fc-sample';
 
 export default async function loadData() {
 
-    // var data = await d3.csv(WeatherData, function(d) {
-    //   return {
-    //     date: new Date(d.date),
-    //     precipitation: +d.precipitation,
-    //     temp_max: +d.temp_max,
-    //     temp_min: +d.temp_min,
-    //     wind: +d.wind,
-    //     weather: d.weather,
-    //   };
-    // });
     var data = await d3.csv(HeartRateData, function(d) {
       return {
         date: new Date(d.date + ' ' + d.time),
         heartRate: +d.heartRate,
-        // temp_max: +d.temp_max,
-        // temp_min: +d.temp_min,
-        // wind: +d.wind,
-        // weather: d.weather,
       };
     });
-
-    
-
+  
     // Create the sampler
     const sampler = largestTriangleThreeBucket();
 
@@ -41,7 +25,6 @@ export default async function loadData() {
 
     // Run the sampler
     const sampledData = sampler(data);
-
 
     return sampledData; 
 }; 

@@ -77,39 +77,39 @@ export default function DistributedDemo(props) {
                 <PeripheryPlotsAligner/>   
             </div>
             <div>
-                {_.range(0, 3).map(i => <PeripheryPlotsTrack key={i} i={i}/>)}
+                {_.range(0, 1).map(i => <PeripheryPlotsTrack key={i} i={i}/>)}
             </div>
         </div>
     }
 
-    let updateEncodingType = (type) => {
-        let Encoding = type === 'line' ? LineGroup : BarGroup; 
-        let encodings = [[Encoding], [Encoding], [Encoding]];
-        let new_schema = _.range(0, config.trackwiseEncodings.length).map(i => encodings); 
-        let new_config = _.cloneDeep(config); 
-        new_config['trackwiseEncodings'] = new_schema; 
-        setConfig(new_config);
-    }
+    // let updateEncodingType = (type) => {
+    //     let Encoding = type === 'line' ? LineGroup : BarGroup; 
+    //     let encodings = [[Encoding], [Encoding], [Encoding]];
+    //     let new_schema = _.range(0, config.trackwiseEncodings.length).map(i => encodings); 
+    //     let new_config = _.cloneDeep(config); 
+    //     new_config['trackwiseEncodings'] = new_schema; 
+    //     setConfig(new_config);
+    // }
 
-    function addDaysToDate(date, days) {
-        date = new Date(date.valueOf());
-        date.setDate(date.getDate() + days);
-        return date;
-    }
+    // function addDaysToDate(date, days) {
+    //     date = new Date(date.valueOf());
+    //     date.setDate(date.getDate() + days);
+    //     return date;
+    // }
 
-    let moveTimeZones = () => {
-        let timeDomains = _.cloneDeep(config.timeDomains); 
-        let ndays = parseInt(Math.random() * 200) * (Math.random() < .5 ? 1 : -1); 
-        timeDomains = timeDomains.map(domain => domain.map(date => addDaysToDate(date, ndays)));
-        let new_config = _.cloneDeep(config); 
-        new_config['timeDomains'] = timeDomains;
-        setConfig(new_config);  
-    }
+    // let moveTimeZones = () => {
+    //     let timeDomains = _.cloneDeep(config.timeDomains); 
+    //     let ndays = parseInt(Math.random() * 200) * (Math.random() < .5 ? 1 : -1); 
+    //     timeDomains = timeDomains.map(domain => domain.map(date => addDaysToDate(date, ndays)));
+    //     let new_config = _.cloneDeep(config); 
+    //     new_config['timeDomains'] = timeDomains;
+    //     setConfig(new_config);  
+    // }
 
     return <React.Fragment>
-        <button onClick={(e) => updateEncodingType('line')}>line</button>
+        {/* <button onClick={(e) => updateEncodingType('line')}>line</button>
         <button onClick={(e) => updateEncodingType('bar')}>bar</button>
-        <button onClick={(e) => moveTimeZones()}>shift time zones</button>
+        <button onClick={(e) => moveTimeZones()}>shift time zones</button> */}
         <div style={{ width: '100%' }}>
             <PeripheryPlots Component={Component} config={config}/>
         </div>
