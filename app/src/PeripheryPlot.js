@@ -16,7 +16,7 @@ import PeripheryPlots, {
             getPeripheryPlotSubComponents
        } from "periphery-plots"; 
 
-export default function DistributedDemo(props) {
+export default function PeripheryPlotSummary(props) {
 
     const [data, setData] = useState(props.data);
     console.log(data) 
@@ -24,21 +24,21 @@ export default function DistributedDemo(props) {
 
         trackwiseObservations: [data, data, data],
         trackwiseTimeKeys: ['date', 'date', 'date'], 
-        trackwiseValueKeys: ['temp_max', 'precipitation', 'wind'], 
+        trackwiseValueKeys: ['sleepMinutes', 'avgHeartRate', 'steps'], 
         trackwiseTypes: ['continuous', 'continuous', 'continuous'],
-        trackwiseUnits: ['celsius', 'inches', 'km / hr'],
-        trackwiseValueDomainComputers: [null, null, (observations) => ([0,50])], 
+        trackwiseUnits: ['minutes', 'beats/minute', 'steps'],
+        trackwiseValueDomainComputers: [null, null, null], 
         trackwiseNumAxisTicks: [3, 3, 3], 
-        trackwiseAxisTickFormatters: [format(",.1f"), null, format(",.1f")], 
+        trackwiseAxisTickFormatters: [null, null, null], 
         trackwiseEncodings: [
             [
-                [LineGroup], [LineGroup], [LineGroup]
+                [BarGroup], [BarGroup], [BarGroup]
             ], 
             [
-                [LineGroup], [LineGroup], [LineGroup]            
+                [BarGroup], [BarGroup], [BarGroup]            
             ], 
             [
-                [LineGroup], [LineGroup], [LineGroup]            
+                [BarGroup], [BarGroup], [BarGroup]            
             ]
         ],
 
@@ -52,9 +52,9 @@ export default function DistributedDemo(props) {
         timeExtentDomain: extent(data.map(d => d.date)),  
         msecsPadding: 1000 * 86400 * 14, // two weeks
         timeDomains: [
-            ['07/02/2012', '02/01/2013'].map(dateStr => new Date(dateStr)),
-            ['02/02/2013', '02/01/2014'].map(dateStr => new Date(dateStr)),
-            ['02/02/2014', '02/01/2015'].map(dateStr => new Date(dateStr))
+            ['2018-01-10', '2018-02-02'].map(dateStr => new Date(dateStr)),
+            ['2018-02-03', '2018-02-18'].map(dateStr => new Date(dateStr)),
+            ['2018-02-19', '2018-03-01'].map(dateStr => new Date(dateStr))
         ], 
     
         controlTimelineHeight: 70, 
@@ -77,7 +77,7 @@ export default function DistributedDemo(props) {
                 <PeripheryPlotsAligner/>   
             </div>
             <div>
-                {_.range(0, 1).map(i => <PeripheryPlotsTrack key={i} i={i}/>)}
+                {_.range(0, 3).map(i => <PeripheryPlotsTrack key={i} i={i}/>)}
             </div>
         </div>
     }

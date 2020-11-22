@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import DistributedDemo from "./DistributedDemo";
+import DistributedDemo from "./PeripheryPlot";
 import HeartRate from "./HeartRate";
-import BarChart from "./BarChart";
+import SleepChart from "./SleepChart";
 import loadData from "./loadData";
+import loadSummaryData from "./loadSummaryData";
 import Spinner from 'react-spinkit';
 
 export default class Home extends Component {
@@ -11,17 +12,17 @@ export default class Home extends Component {
     super(props);
     this.state = {
       loading: true,
-      // data: null,
-      data: [12, 5, 6, 6, 9, 10],
+      data: null,
+      // data: [12, 5, 6, 6, 9, 10],
       width: 700,
-      height: 500,
+      height: 50,
       id: 'root'
     };
   }
 
   async componentDidMount() {
 
-    loadData().then(response => {
+    loadSummaryData().then(response => {
         // console.log(response)
         this.setState({data: response, loading: false});
     });
@@ -40,9 +41,12 @@ export default class Home extends Component {
     return (
       <div>
           {this.state.loading && this.renderLoading()}
-          {/* {this.state.data && this.state.data && <HeartRate data={this.state.data}></HeartRate>} */}
-          {this.state.data && this.state.data && <BarChart data={this.state.data} width={this.state.width} height={this.state.height} id={this.state.id}></BarChart>}
-          {/* {this.state.data && this.state.data && <DistributedDemo data={this.state.data}></DistributedDemo>} */}
+          {this.state.data &&
+            <SleepChart data={this.state.data}
+                        width={this.state.width}
+                        height={this.state.height}>
+            </SleepChart>}
+          {/* {this.state.data && <DistributedDemo data={this.state.data}></DistributedDemo>} */}
       </div>
     );
   }
