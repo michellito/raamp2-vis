@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import * as d3 from "d3";
+import { tip as d3tip } from "d3-v6-tip";
 
 class SleepChart extends Component {
   componentDidMount() {
@@ -8,8 +9,11 @@ class SleepChart extends Component {
 
   drawChart() {
     // const data = [12, 5, 6, 6, 9, 10];
-    var positionX = 50;
-    var positionY = 50;
+    var positionX = this.props.positionX;
+    var positionY = this.props.positionY;
+    var id = this.props.id;
+
+    console.log(id)
 
     var paddingBottom = 20;
     var paddingLeft = 50;
@@ -29,7 +33,7 @@ class SleepChart extends Component {
       .domain(d3.extent(data.map(function (d) {
         return (d.sleepMinutes);
       })))
-      .range([height, 0]);
+      .range([height - paddingBottom, 0]);
 
     var colorScale = d3.scaleSequential(d3.interpolateBlues)
       .domain(d3.extent(data.map(function (d) {
@@ -40,14 +44,26 @@ class SleepChart extends Component {
       .scale(xScale);
   
     var yAxis = d3.axisLeft()
-      .scale(yScale);
+      .scale(yScale)
+      .ticks(3);
     
-    const svg = d3.select("body")
-    .append("svg")
-    .attr("width", this.props.width)
-    .attr("height", this.props.height)
-                  
-    svg.selectAll("rect")
+    var sleepGroup = d3.select("#main-container").select("svg")
+      .append("g")
+      .attr("id", id)
+      .attr("transform", `translate (${positionX}, ${positionY})`);
+
+    var tooltip = d3tip()
+      .attr('class', 'd3-tip')
+      .direction('n')
+      .offset([-10, 0])
+      .html(function(event ,d) {
+        var formatTime = d3.timeFormat("%a, %b %e")
+        return "<strong>" + formatTime(d.date) + "<br/></strong> <div style='margin-top:5px'>" + d.sleepMinutes + " minutes</div>"
+      });
+    
+    sleepGroup.call(tooltip)
+    
+    sleepGroup.selectAll("rect")
       .data(this.props.data)
       .enter()
       .append("rect")
@@ -60,22 +76,25 @@ class SleepChart extends Component {
       })
       .attr("width", 10)
       .attr("height", function(d, i) {
-        return height - yScale(d.sleepMinutes);
+        return height -paddingBottom -  yScale(d.sleepMinutes);
       })
       .attr("fill", function(d, i) {
         return colorScale(d.sleepMinutes)
       })
+      .on('mouseover', function(event,d) {
+        tooltip.show(event, d)
+      })
+      .on('mouseout', tooltip.hide)
     
       // append axes
-    svg.append("g")
-    .attr("transform", `translate(${0}, ${height - 15})`)
+    sleepGroup.append("g")
+    .attr("transform", `translate(${0}, ${height - 20})`)
     .call(xAxis);
   
-    svg.append("g")
+    sleepGroup.append("g")
       .attr("transform", `translate(${paddingLeft}, ${0})`)
       .call(yAxis);
-
-    
+  
   }
         
   render(){

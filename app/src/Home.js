@@ -5,6 +5,7 @@ import SleepChart from "./SleepChart";
 import loadData from "./loadData";
 import loadSummaryData from "./loadSummaryData";
 import Spinner from 'react-spinkit';
+import * as d3 from "d3";
 
 export default class Home extends Component {
   
@@ -13,7 +14,7 @@ export default class Home extends Component {
     this.state = {
       loading: true,
       data: null,
-      // data: [12, 5, 6, 6, 9, 10],
+      data2: null,
       width: 700,
       height: 50,
       id: 'root'
@@ -21,10 +22,14 @@ export default class Home extends Component {
   }
 
   async componentDidMount() {
-
+    var svg = d3.select("#main-container")
+      .append("svg")
+      .attr("width", window.innerWidth - 240)
+      .attr("height", window.innerHeight)
+    
     loadSummaryData().then(response => {
-        // console.log(response)
-        this.setState({data: response, loading: false});
+      // console.log(response)
+      this.setState({data: response, data2: response, loading: false});
     });
   }
 
@@ -39,15 +44,28 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div>
+      <>
           {this.state.loading && this.renderLoading()}
           {this.state.data &&
-            <SleepChart data={this.state.data}
+          <>
+            <SleepChart id="sleep1"
+                        data={this.state.data}
                         width={this.state.width}
-                        height={this.state.height}>
-            </SleepChart>}
+                        height={this.state.height}
+                        positionX={50}
+                        positionY={50}>
+            </SleepChart>
+            <SleepChart id="sleep2"
+                        data={this.state.data}
+                        width={this.state.width}
+                        height={this.state.height}
+                        positionX={50}
+                        positionY={100}>
+            </SleepChart>
+          </>
+          }
           {/* {this.state.data && <DistributedDemo data={this.state.data}></DistributedDemo>} */}
-      </div>
+      </>
     );
   }
 }
