@@ -3,17 +3,34 @@ import * as d3 from "d3";
 import { tip as d3tip } from "d3-v6-tip";
 
 class SleepChart extends Component {
+  
   componentDidMount() {
     this.drawChart();
   }
 
+  componentDidUpdate() {
+
+    var width = this.props.width;
+    var height = this.props.height;
+    var paddingLeft = 50;
+    console.log('sleep chart updated!')
+    var sleepGroup = d3.select("#" + this.props.id);
+
+    var xScale = d3.scaleTime()
+      .domain(this.props.timeRange)
+      .range([paddingLeft, width])
+
+    var xAxis = d3.axisBottom()
+      .scale(xScale);
+
+    sleepGroup.select(".xAxis").call(xAxis)
+  }
+
   drawChart() {
-    // const data = [12, 5, 6, 6, 9, 10];
+
     var positionX = this.props.positionX;
     var positionY = this.props.positionY;
     var id = this.props.id;
-
-    console.log(id)
 
     var paddingBottom = 20;
     var paddingLeft = 50;
@@ -21,9 +38,6 @@ class SleepChart extends Component {
     var width = this.props.width;
     var height = this.props.height;
     var data = this.props.data;
-
-    console.log(data[0].date)
-    console.log(data[data.length - 1].date)
 
     var xScale = d3.scaleTime()
       .domain([data[0].date, data[data.length - 1].date])
@@ -88,6 +102,7 @@ class SleepChart extends Component {
     
       // append axes
     sleepGroup.append("g")
+    .attr("class", "xAxis")
     .attr("transform", `translate(${0}, ${height - 20})`)
     .call(xAxis);
   

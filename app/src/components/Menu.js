@@ -82,12 +82,11 @@ export default function Menu() {
 
   return (
     <div>
-
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-mutiple-chip-label">Participants</InputLabel>
+        <InputLabel id="paricipant-multiselect">Participants</InputLabel>
         <Select
-          labelId="demo-mutiple-chip-label"
-          id="demo-mutiple-chip"
+          labelId="paricipant-multiselect"
+          id="paricipant-multiselect-chip"
           multiple
           value={personName}
           onChange={handleChange}

@@ -1,6 +1,5 @@
 import _ from "lodash"; 
-import WeatherData from "./seattle-weather.csv";
-import SummaryData from "./data/S001/S001_summary.csv"
+import SummaryData from "../data/S001/S001_summary.csv"
 import * as d3 from 'd3';
 import {largestTriangleThreeBucket} from '@d3fc/d3fc-sample';
 

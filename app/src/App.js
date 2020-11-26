@@ -1,6 +1,5 @@
-import logo from './logo.svg';
-import Home from './Home';
-import Menu from './Menu';
+import Home from './Main';
+import Menu from './components/Menu';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -51,7 +50,7 @@ function App() {
             MOSAIC RAAMP2
           </Typography>
         </Toolbar>
-        <Divider />
+        <Divider></Divider>
         <Menu></Menu>
       </Drawer>
       <main id="main-container">
