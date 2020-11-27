@@ -3,7 +3,12 @@ import * as d3 from "d3";
 import { tip as d3tip } from "d3-v6-tip";
 
 class SleepChart extends Component {
-  
+
+  constructor(props) {
+    super(props);
+  }
+
+
   componentDidMount() {
     this.drawChart();
   }
@@ -13,17 +18,50 @@ class SleepChart extends Component {
     var width = this.props.width;
     var height = this.props.height;
     var paddingLeft = 50;
-    console.log('sleep chart updated!')
     var sleepGroup = d3.select("#" + this.props.id);
 
     var xScale = d3.scaleTime()
       .domain(this.props.timeRange)
       .range([paddingLeft, width])
 
+
     var xAxis = d3.axisBottom()
       .scale(xScale);
 
     sleepGroup.select(".xAxis").call(xAxis)
+
+    var rects = sleepGroup.selectAll("rect")
+
+    var updatedData = this.props.data.filter(function(d) {
+      return (d >= xScale.domain()[0] && d <= xScale.domain()[1]);
+    });
+
+
+
+    // // rects.exit().remove()
+    // rects.data(updatedData)
+    //   .enter()
+    //   .append(rect)
+    //   .attr("x", function(d, i) {
+    //     console.log(xScale(d.date))
+    //     return xScale(d.date);
+    //   })
+    //   .attr("y", function(d, i) {
+    //     return yScale(d.sleepMinutes);
+    //   })
+    //   .attr("width", 10)
+    //   .attr("height", function(d, i) {
+    //     return height - paddingBottom -  yScale(d.sleepMinutes);
+    //   })
+    //   .attr("fill", function(d, i) {
+    //     return colorScale(d.sleepMinutes)
+    //   })
+    //   .on('mouseover', function(event,d) {
+    //     tooltip.show(event, d)
+    //   })
+    //   .on('mouseout', tooltip.hide)
+
+    
   }
 
   drawChart() {
@@ -39,9 +77,11 @@ class SleepChart extends Component {
     var height = this.props.height;
     var data = this.props.data;
 
-    var xScale = d3.scaleTime()
+    this.xScale = d3.scaleTime()
       .domain([data[0].date, data[data.length - 1].date])
-      .range([paddingLeft, width])
+      .range([paddingLeft, width]).bind(this)
+    
+    var xScale = this.xScale
     
     var yScale = d3.scaleLinear()
       .domain(d3.extent(data.map(function (d) {
@@ -82,7 +122,7 @@ class SleepChart extends Component {
       .enter()
       .append("rect")
       .attr("x", function(d, i) {
-        console.log(xScale(d.date))
+        // console.log(this.xScale(d.date))
         return xScale(d.date);
       })
       .attr("y", function(d, i) {
@@ -110,6 +150,10 @@ class SleepChart extends Component {
       .attr("transform", `translate(${paddingLeft}, ${0})`)
       .call(yAxis);
   
+  }
+
+  drawRects() {
+    
   }
         
   render(){

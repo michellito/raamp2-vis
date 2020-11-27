@@ -10,6 +10,7 @@ export default class Home extends Component {
   
   constructor(props) {
     super(props);
+
     this.state = {
       loading: true,
       timeRange: [new Date('2018-01-08'), new Date('2018-03-08')],
