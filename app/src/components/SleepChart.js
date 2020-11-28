@@ -6,8 +6,8 @@ class SleepChart extends Component {
 
   constructor(props) {
     super(props);
+    this.drawChart.bind(this);
   }
-
 
   componentDidMount() {
     this.drawChart();
@@ -20,10 +20,11 @@ class SleepChart extends Component {
     var paddingLeft = 50;
     var sleepGroup = d3.select("#" + this.props.id);
 
+    console.log(this.xScale);
+
     var xScale = d3.scaleTime()
       .domain(this.props.timeRange)
       .range([paddingLeft, width])
-
 
     var xAxis = d3.axisBottom()
       .scale(xScale);
@@ -36,31 +37,33 @@ class SleepChart extends Component {
       return (d >= xScale.domain()[0] && d <= xScale.domain()[1]);
     });
 
+    rects.exit().remove()
+    rects.data(updatedData)
+      // .enter()
+      // .append(rect)
+      // .attr("x", function(d, i) {
+      //   console.log(xScale(d.date))
+      //   return xScale(d.date);
+      // })
+      // .attr("y", function(d, i) {
+      //   return yScale(d.sleepMinutes);
+      // })
+      // .attr("width", 10)
+      // .attr("height", function(d, i) {
+      //   return height - paddingBottom -  yScale(d.sleepMinutes);
+      // })
+      // .attr("fill", function(d, i) {
+      //   return colorScale(d.sleepMinutes)
+      // })
+      // .on('mouseover', function(event,d) {
+      //   tooltip.show(event, d)
+      // })
+      // .on('mouseout', tooltip.hide)
 
+    
+  }
 
-    // // rects.exit().remove()
-    // rects.data(updatedData)
-    //   .enter()
-    //   .append(rect)
-    //   .attr("x", function(d, i) {
-    //     console.log(xScale(d.date))
-    //     return xScale(d.date);
-    //   })
-    //   .attr("y", function(d, i) {
-    //     return yScale(d.sleepMinutes);
-    //   })
-    //   .attr("width", 10)
-    //   .attr("height", function(d, i) {
-    //     return height - paddingBottom -  yScale(d.sleepMinutes);
-    //   })
-    //   .attr("fill", function(d, i) {
-    //     return colorScale(d.sleepMinutes)
-    //   })
-    //   .on('mouseover', function(event,d) {
-    //     tooltip.show(event, d)
-    //   })
-    //   .on('mouseout', tooltip.hide)
-
+  getProps() {
     
   }
 
@@ -79,7 +82,7 @@ class SleepChart extends Component {
 
     this.xScale = d3.scaleTime()
       .domain([data[0].date, data[data.length - 1].date])
-      .range([paddingLeft, width]).bind(this)
+      .range([paddingLeft, width])
     
     var xScale = this.xScale
     
@@ -142,9 +145,9 @@ class SleepChart extends Component {
     
       // append axes
     sleepGroup.append("g")
-    .attr("class", "xAxis")
-    .attr("transform", `translate(${0}, ${height - 20})`)
-    .call(xAxis);
+      .attr("class", "xAxis")
+      .attr("transform", `translate(${0}, ${height - 20})`)
+      .call(xAxis);
   
     sleepGroup.append("g")
       .attr("transform", `translate(${paddingLeft}, ${0})`)
@@ -153,7 +156,7 @@ class SleepChart extends Component {
   }
 
   drawRects() {
-    
+
   }
         
   render(){

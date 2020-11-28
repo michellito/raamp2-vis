@@ -18,18 +18,19 @@ export default class Home extends Component {
       data2: null,
       width: 700,
       height: 50,
-      id: 'root'
+      id: 'root',
     };
 
     this.updateTimeRange = this.updateTimeRange.bind(this)
   }
 
   async componentDidMount() {
+    
     var svg = d3.select("#main-container")
       .append("svg")
       .attr("width", window.innerWidth - 240)
       .attr("height", window.innerHeight)
-    
+
     loadSummaryData().then(response => {
       // console.log(response)
       this.setState({data: response, data2: response, loading: false});
@@ -42,7 +43,6 @@ export default class Home extends Component {
     } else {
       this.setState({timeRange: [new Date('2018-01-08'), new Date('2018-03-08')]});
     }
-    
   }
 
   renderLoading() {

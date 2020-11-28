@@ -1,5 +1,4 @@
-import React from 'react';
-import clsx from 'clsx';
+import React, {Component} from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -60,25 +59,10 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function Menu() {
+export default function Menu(props) {
+  console.log(props);
   const classes = useStyles();
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
-
-  const handleChange = (event) => {
-    setPersonName(event.target.value);
-  };
-
-  const handleChangeMultiple = (event) => {
-    const { options } = event.target;
-    const value = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setPersonName(value);
-  };
 
   return (
     <div>
@@ -88,8 +72,8 @@ export default function Menu() {
           labelId="paricipant-multiselect"
           id="paricipant-multiselect-chip"
           multiple
-          value={personName}
-          onChange={handleChange}
+          value={props.participants}
+          onChange={props.handleParticipantChange}
           input={<Input id="select-multiple-chip" />}
           renderValue={(selected) => (
             <div className={classes.chips}>
@@ -101,7 +85,10 @@ export default function Menu() {
           MenuProps={MenuProps}
         >
           {names.map((name) => (
-            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+            <MenuItem key={name}
+                      value={name}
+                      // style={getStyles(name, props.participants, theme)}
+            >
               {name}
             </MenuItem>
           ))}
