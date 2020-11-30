@@ -12,13 +12,10 @@ class Timeline extends Component {
 
     function brushed({selection}) {
       if (selection) {
+        
         var startDate = xScale.invert(selection[0]);
         var endDate = xScale.invert(selection[1]);
-        // console.log(startDate)
         updateTimeRange([startDate, endDate]);
-        // svg.property("value", selection.map(x.invert, x).map(d3.utcDay.round));
-        // svg.dispatch("input");
-        // console.log(selection)
       }
     }
   
@@ -67,7 +64,6 @@ class Timeline extends Component {
       .on("end", brushended);
 
     var defaultSelection = [xScale.range()[0], xScale.range()[1]];
-
 
     timelineGroup.append("g")
       .call(brush)

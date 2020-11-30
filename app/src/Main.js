@@ -14,8 +14,7 @@ export default class Home extends Component {
     this.state = {
       loading: true,
       timeRange: [new Date('2018-01-08'), new Date('2018-03-08')],
-      data: null,
-      data2: null,
+      participants: null,
       width: 700,
       height: 50,
       id: 'root',
@@ -31,10 +30,37 @@ export default class Home extends Component {
       .attr("width", window.innerWidth - 240)
       .attr("height", window.innerHeight)
 
-    loadSummaryData().then(response => {
+    loadSummaryData(this.props.participants).then(response => {
       // console.log(response)
-      this.setState({data: response, data2: response, loading: false});
+      this.setState({participants: [{ id: 'S001', data: response}], loading: false});
     });
+  }
+
+  componentDidUpdate() {
+    let updatedParticipants = this.props.participants;
+
+    const prevParticipants = this.state.participants.slice() //copy the array
+
+    for (var i = 0; i < updatedParticipants.length; i++) {
+
+    }
+    // if (data.checked) {
+    //   selectedFiles.push(file_path);
+    // } else {
+    //   var index = selectedFiles.indexOf(file_path);
+    //   selectedFiles.splice(index, 1);
+    // }
+    // this.setState({
+    //   selectedFiles: selectedFiles,
+    //   selectionStatus: {
+    //     ...this.state.selectionStatus,
+    //     [file_path]: data.checked
+    //   }, 
+    // });
+
+
+
+    console.log("Main - partipants updated!x")
   }
 
   updateTimeRange(selection) {
@@ -54,11 +80,14 @@ export default class Home extends Component {
   }
 
   render() {
+
+    const participants = this.state.participants;
     return (
       <>
         {this.state.loading && this.renderLoading()}
-        {this.state.data &&
+        {participants && participants.length &&
           <>
+            
             <Timeline id="timeline"
                         width={this.state.width}
                         height={this.state.height}
@@ -66,22 +95,25 @@ export default class Home extends Component {
                         positionY={50}
                         updateTimeRange={this.updateTimeRange}>
             </Timeline>
+            { participants.map((participant) => (
             <SleepChart id="sleep1"
-                        data={this.state.data}
+                        data={participant.data}
                         width={this.state.width}
                         height={this.state.height}
                         positionX={50}
                         positionY={120}
                         timeRange={this.state.timeRange}>
             </SleepChart>
-            <SleepChart id="sleep2"
+            ))}
+            {/* <SleepChart id="sleep2"
                         data={this.state.data}
                         width={this.state.width}
                         height={this.state.height}
                         positionX={50}
                         positionY={170}
                         timeRange={this.state.timeRange}>
-            </SleepChart>
+            </SleepChart> */}
+
           </>
         }
       </>

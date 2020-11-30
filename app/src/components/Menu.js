@@ -63,9 +63,10 @@ export default function Menu(props) {
   console.log(props);
   const classes = useStyles();
   const theme = useTheme();
+  const domRef = React.useRef();
 
   return (
-    <div>
+    <div >
       <FormControl className={classes.formControl}>
         <InputLabel id="paricipant-multiselect">Participants</InputLabel>
         <Select

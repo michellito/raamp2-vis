@@ -4,9 +4,8 @@ import * as d3 from 'd3';
 import {largestTriangleThreeBucket} from '@d3fc/d3fc-sample';
 
 export default async function loadSummaryData(participants) {
-
     
-    
+    // var path = 
     var data = await d3.csv(SummaryData, function(d) {
       return {
         date: new Date(d.Steps_dateTime),

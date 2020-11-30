@@ -39,14 +39,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      participants: []
+      participants: ['S001']
     };
 
     this.handleParticipantChange = this.handleParticipantChange.bind(this);
   }
 
   handleParticipantChange(event) {
-    console.log(event.target.value)
     this.setState({participants: event.target.value});
   };
 
@@ -73,7 +72,7 @@ class App extends Component {
           <Menu handleParticipantChange={this.handleParticipantChange} participants={this.state.participants}></Menu>
         </Drawer>
         <main id="main-container">
-          <Home></Home>
+          <Home participants={this.state.participants}></Home>
         </main>
       </div>
     </div>
