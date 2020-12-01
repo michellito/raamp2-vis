@@ -1,19 +1,37 @@
 import _ from "lodash"; 
-import SummaryData from "../data/S001/S001_summary.csv"
+import SummaryData from "./data/S001/S001_summary.csv"
 import * as d3 from 'd3';
 import {largestTriangleThreeBucket} from '@d3fc/d3fc-sample';
 
 export default async function loadSummaryData(participants) {
     
-    // var path = 
-    var data = await d3.csv(SummaryData, function(d) {
+  var allData = [];
+
+
+
+  for (var i = 0; i < participants.length; i++) {
+    var id = participants[i]
+    var path = "/data/" + id + '/' + id + "_summary.csv"
+
+    console.log(path)
+
+    // console.log(path)
+    var data = await d3.csv(path, function(d) {
       return {
         date: new Date(d.Steps_dateTime),
         sleepMinutes: +d.Sleep_Main_minutesAsleep,
         avgHeartRate: +d.HeartRate_value,
         steps: +d.Steps_duration,
       };
-    });
+    })
+
+
+    // console.log(data)
+    
+    allData.push({id: id, data: data});
+
+  }
+    
   
     // // Create the sampler
     // const sampler = largestTriangleThreeBucket();
@@ -27,8 +45,8 @@ export default async function loadSummaryData(participants) {
 
     // // Run the sampler
     // const sampledData = sampler(data);
-
-    return data; 
+    // console.log(allData)
+    return allData; 
 }; 
 
 

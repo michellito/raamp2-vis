@@ -5,6 +5,7 @@ import loadData from "./dataReader/loadData";
 import loadSummaryData from "./dataReader/loadSummaryData";
 import Spinner from 'react-spinkit';
 import * as d3 from "d3";
+import _ from "lodash"; 
 
 export default class Home extends Component {
   
@@ -32,18 +33,37 @@ export default class Home extends Component {
 
     loadSummaryData(this.props.participants).then(response => {
       // console.log(response)
-      this.setState({participants: [{ id: 'S001', data: response}], loading: false});
+      this.setState({participants: response, loading: false});
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    console.log('prevProps')
+    console.log(prevProps)
+
     let updatedParticipants = this.props.participants;
+    let prevParticipants = prevProps.participants;
 
-    const prevParticipants = this.state.participants.slice() //copy the array
+    if (!_.isEqual(prevParticipants, updatedParticipants)) {
+      console.log('hety')
+      let getParticipants = []
+      for (var i = 0; i < updatedParticipants.length; i++) {
+        if (!prevParticipants.includes(updatedParticipants[i])) {
+          getParticipants.push(updatedParticipants[i])
+        }
+      }
 
-    for (var i = 0; i < updatedParticipants.length; i++) {
+      console.log(getParticipants)
+    
 
+      loadSummaryData(getParticipants).then(response => {
+        // console.log(response)
+        // this.setState({participants: response, loading: false});
+        console.log(response)
+        this.setState({ participants: [...this.state.participants, ...response ] })
+      });
     }
+
     // if (data.checked) {
     //   selectedFiles.push(file_path);
     // } else {
@@ -95,13 +115,13 @@ export default class Home extends Component {
                         positionY={50}
                         updateTimeRange={this.updateTimeRange}>
             </Timeline>
-            { participants.map((participant) => (
-            <SleepChart id="sleep1"
+            { participants.map((participant, i) => (
+            <SleepChart id={participant.id + "_sleep"}
                         data={participant.data}
                         width={this.state.width}
                         height={this.state.height}
                         positionX={50}
-                        positionY={120}
+                        positionY={120 + (50 * i)}
                         timeRange={this.state.timeRange}>
             </SleepChart>
             ))}
