@@ -10,6 +10,7 @@ class SleepChart extends Component {
   }
 
   componentDidMount() {
+    // console.log(this.props)
     this.drawChart();
   }
 
@@ -20,7 +21,7 @@ class SleepChart extends Component {
     var paddingLeft = 50;
     var sleepGroup = d3.select("#" + this.props.id);
 
-    console.log(this.xScale);
+    // console.log(this.xScale);
 
     var xScale = d3.scaleTime()
       .domain(this.props.timeRange)
@@ -33,18 +34,26 @@ class SleepChart extends Component {
 
     var rects = sleepGroup.selectAll("rect")
 
+    
+
     var updatedData = this.props.data.filter(function(d) {
-      return (d >= xScale.domain()[0] && d <= xScale.domain()[1]);
+      return (d.date >= xScale.domain()[0] && d.date <= xScale.domain()[1]);
     });
 
-    rects.exit().remove()
     rects.data(updatedData)
+    rects.exit().remove()
+
+    // console.log('data updated')
+// 
+    // console.log(updatedData)
+
+    rects
       // .enter()
       // .append(rect)
-      // .attr("x", function(d, i) {
-      //   console.log(xScale(d.date))
-      //   return xScale(d.date);
-      // })
+      .attr("x", function(d, i) {
+        // console.log(xScale(d.date))
+        return xScale(d.date);
+      })
       // .attr("y", function(d, i) {
       //   return yScale(d.sleepMinutes);
       // })

@@ -14,7 +14,7 @@ export default class Home extends Component {
 
     this.state = {
       loading: true,
-      timeRange: [new Date('2018-01-08'), new Date('2018-03-08')],
+      timeRange: [new Date('2018-01-08'), new Date('2018-03-26')],
       participants: null,
       width: 700,
       height: 50,
